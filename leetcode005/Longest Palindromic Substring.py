@@ -1,7 +1,6 @@
 class Solution(object):
     def longestPalindrome(self, word):
         n = len(word)
-        word = word[::-1]
         T = [[0 for _ in range(n)] for _ in range(n)]
 
         for i in range(n):
@@ -46,3 +45,13 @@ class Solution(object):
             ansIndex -= 1
 
         return ans
+
+s=Solution()
+print(s.longestPalindrome("xaba"))
+
+# Test cases
+if __name__ == "__main__":
+    assert Solution().longestPalindrome("aba") == "aba"
+    assert Solution().longestPalindrome("abba") == "abba"
+    assert Solution().longestPalindrome("xaba") == "aba"
+    assert Solution().longestPalindrome("xabba") == "abba"
