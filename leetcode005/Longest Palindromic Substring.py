@@ -37,7 +37,8 @@ class Solution(object):
         return ans
 
 s=Solution()
-print(s.longestPalindrome("a"))
+word = input()
+print(s.longestPalindrome(word))
 
 # Test cases
 if __name__ == "__main__":
