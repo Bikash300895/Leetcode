@@ -1,53 +1,43 @@
 class Solution(object):
     def longestPalindrome(self, word):
         n = len(word)
-        T = [[0 for _ in range(n)] for _ in range(n)]
 
+        # Creating a table
+        table = [[False for i in range(n)] for j in range(n)]
+
+        # initializr the values for length one with true because string with one letter is always palindrome
         for i in range(n):
-            T[i][i] = 1
+            table[i][i] = True
 
-        for l in range(2, n + 1):
+        # Declare two variable start and maxLength
+        start = 0
+        maxLength = 1
+
+        # Lets handle the length 2 cases first then loop for all other length
+        for i in range(n - 1):
+            if word[i] == word[i + 1]:
+                table[i][i + 1] = True
+                start = i
+                maxLength = 2
+
+        for l in range(3, n + 1):
             for i in range(n - l + 1):
                 j = i + l - 1
-                if l == 2 and word[i] == word[j]:
-                    T[i][j] = 2
-                elif (word[i] == word[j]):
-                    T[i][j] = T[i + 1][j - 1] + 2
-                else:
-                    T[i][j] = max(T[i + 1][j], T[i][j - 1])
 
-        i, j = 0, n - 1
-        ans = ""
+                if word[i] == word[j] and table[i + 1][j - 1]:
+                    table[i][j] = True
+                    if l > maxLength:
+                        maxLength = l
+                        start = i
 
-        palindromeLen = T[0][n - 1]
-        ansIndex = 0
-
-        while palindromeLen > 0:
-            if palindromeLen == 1:
-                ans += word[j]
-                palindromeLen -= 1
-
-            elif T[i][j] == T[i + 1][j - 1] + 2:
-                ans += word[j]
-                i += 1
-                j -= 1
-                palindromeLen -= 2
-                ansIndex += 1
-
-            elif T[i + 1][j] >= T[i][j - 1]:
-                i += 1
-
-            else:
-                j -= 1
-
-        while ansIndex > 0:
-            ans += ans[ansIndex - 1]
-            ansIndex -= 1
+        ans=""
+        for i in range(start, start + maxLength):
+            ans+=word[i]
 
         return ans
 
 s=Solution()
-print(s.longestPalindrome("xaba"))
+print(s.longestPalindrome("a"))
 
 # Test cases
 if __name__ == "__main__":
